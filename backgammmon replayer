@@ -1,0 +1,96 @@
+game_text = open("game1.txt", "r")
+lines = game_text.readlines()
+
+match_length = lines[0].strip()[0]
+game_start_lines = []
+for i in range(len(lines)):
+    if lines[i][1:5] == "Game":
+        game_start_lines.append(i)
+
+player_line = lines[game_start_lines[0] + 1].strip().replace(" ", "").split(":")
+players = player_line[0], player_line[1].replace("0", "")
+
+# starting_players = []
+# for game in range(len(game_start_lines)):
+#     first_moves = lines[game_start_lines[game] + 2]
+#     if first_moves.count(":") == 2:
+#         starting_players.append(0)
+#     else:
+#         starting_players.append(1)
+#
+#     first_moves = first_moves[2:].split()
+#     print(first_moves)
+#     if starting_players[game] ==0:
+#         for i,item in enumerate(first_moves[1:]):
+#             roll =
+game = 4
+game_start_lines.append(len(lines))
+p1_all_moves = []
+p2_all_moves = []
+p1_all_rolls = []
+p2_all_rolls = []
+for game in range(len(game_start_lines)-1):
+    p1_moves = []
+    p2_moves = []
+    p1_rolls = []
+    p2_rolls = []
+    for line in lines[game_start_lines[game] + 2: game_start_lines[game+1]]:
+        p1_line = line[4:37].strip()
+        p2_line = line[37:].strip()
+        if ":" in p1_line:
+            p1_roll, p1_move = p1_line.split(":")
+            p1_rolls.append(p1_roll.strip())
+            p1_moves.append(p1_move.strip())
+        else:
+            p1_rolls.append("")
+            p1_moves.append("")
+        if ":" in p2_line:
+            p2_roll, p2_move = p2_line.split(":")
+            p2_rolls.append(p2_roll.strip())
+            p2_moves.append(p2_move.strip())
+        else:
+            p2_rolls.append("")
+            p2_moves.append("")
+    p1_all_rolls.append(p1_rolls)
+    p1_all_moves.append(p1_moves)
+    p2_all_rolls.append(p2_rolls)
+    p2_all_moves.append(p2_moves)
+    # print(p1_line.split(":"))
+    #
+    # p1_moves.append(p1_line)
+    # p2_moves.append(p2_line)
+
+# print(p1_all_rolls)
+# for rolls in p1_all_rolls:
+#     print(rolls)
+# for moves in p1_all_moves:
+#     print(moves)
+# for rolls in p2_all_rolls:
+#     print(rolls)
+# for moves in p2_all_moves:
+#     print(moves)
+
+# for i in range(len(p1_all_moves)):
+#     if len(p1_all_rolls[i]) != len(p2_all_rolls[i]):
+#         print("no")
+#     else: print("yes")
+#     if len(p2_all_rolls[i]) != len(p2_all_rolls[i]):
+#         print("no")
+#     else:
+#         print("yes")
+
+
+
+
+# print("-----------------------------------------\nGAME INFO:\n-----------------------------------------")
+# print("Players:   ", players[0], "  vs.  ", players[1])
+# print("Match length: ", match_length)
+# print("Starting lines for games: ", game_start_lines)
+# print("Starting players in each game: ", starting_players)
+
+
+
+
+
+
+
