@@ -1,0 +1,138 @@
+import numpy as np
+
+game_text = open("game2.txt", "r")
+lines = game_text.readlines()
+
+match_length = lines[0].strip()[0]
+game_start_lines = []
+for i in range(len(lines)):
+    if lines[i][1:5] == "Game":
+        game_start_lines.append(i)
+
+player_line = lines[game_start_lines[0] + 1].strip().replace(" ", "").split(":")
+players = player_line[0], player_line[1].replace("0", "")
+
+# starting_players = []
+# for game in range(len(game_start_lines)):
+#     first_moves = lines[game_start_lines[game] + 2]
+#     if first_moves.count(":") == 2:
+#         starting_players.append(0)
+#     else:
+#         starting_players.append(1)
+#
+#     first_moves = first_moves[2:].split()
+#     print(first_moves)
+#     if starting_players[game] ==0:
+#         for i,item in enumerate(first_moves[1:]):
+#             roll =
+
+game_start_lines.append(len(lines))
+str_rolls, str_moves = [], []
+for game in range(len(game_start_lines)-1):
+    rolls, moves = [], []
+    last_line = False
+    for line in lines[game_start_lines[game] + 2: game_start_lines[game+1]]:
+        if last_line == False:
+            p1_line = line[4:37].strip()
+            p2_line = line[37:].strip()
+            if ":" in p1_line:
+                p1_roll, p1_move = p1_line.split(":")
+                p1_roll, p1_move = p1_roll.strip(), p1_move.strip()
+            else:
+                p1_move = ""
+                if "Doubles" in p1_line:
+                    p1_roll= "DO"
+                elif "Takes" in p1_line:
+                    p1_roll = "TA"
+                elif "Drops" in p1_line:
+                    p1_roll = "DR"
+                elif "Wins" in p1_line:
+                    p1_roll = "WI"
+                    last_line = True
+                else:
+                    p1_roll = ""
+            if ":" in p2_line:
+                p2_roll, p2_move = p2_line.split(":")
+                p2_roll, p2_move = p2_roll.strip(), p2_move.strip()
+            else:
+                p2_move = ""
+                if "Doubles" in p2_line:
+                    p2_roll= "DO"
+                elif "Takes" in p2_line:
+                    p2_roll = "TA"
+                elif "Drops" in p2_line:
+                    p2_roll = "DR"
+                elif "Wins" in p2_line:
+                    p2_roll = "WI"
+                    last_line = True
+                else:
+                    p2_roll = ""
+        rolls.append([p1_roll, p2_roll])
+        moves.append([p1_move, p2_move])
+    str_rolls.append(rolls)
+    str_moves.append(moves)
+
+# for turns in str_rolls:
+#     print("Rolls: ",turns[:2], " .... ", turns[-2:])
+# for turns in str_moves:
+#     print("Moves: ",turns[:2], " .... ", turns[-2:])
+
+r , m = [], []
+
+for i, game in enumerate(str_rolls):
+    r.append([])
+    for j, turn in enumerate(game):
+        r[i].append([])
+        for r_str in turn:
+            if r_str.isdecimal():
+                # if r_str == "":    # fix later
+                #     r1 = "NM" 
+                if r_str[0] == r_str[1]:
+                    r1 = [int(r_str[0]),int(r_str[0]),int(r_str[0]),int(r_str[0])]
+                else:
+                    r1 = [int(r_str[0]), int(r_str[1])]
+            else:
+                r1 = r_str
+            r[i][j].append(r1)
+            
+    
+for i, game in enumerate(str_moves):
+    m.append([])
+    # print(m)
+    for j, turn in enumerate(game):
+        m[i].append([])
+        for k, m_str in enumerate(turn):
+            if "/" in m_str:
+                m_str_s1 = m_str.split(" ")
+                set_list= []
+                for set in m_str_s1:
+                    pos = set.replace("*", "").split("/")
+                    pos0, pos1 = int(pos[0]), int(pos[1])
+                    set_list.append([pos0,pos1])
+                m[i][j].append(set_list)
+            else:
+                m[i][j].append([])
+
+for g, game in enumerate(r):
+    print("Rolls, game", g+1)
+    for i, turns in enumerate(game):
+        if i < 100:
+            print(game[i])
+    print("...")
+for g, game in enumerate(m):
+    print("Moves, game", g+1)
+    for i, turns in enumerate(game):
+        if i < 100:
+            print(game[i])
+    print("...")
+# print("-----------------------------------------\nGAME INFO:\n-----------------------------------------")
+# print("- Players:                  ", players[0], "  vs.  ", players[1])
+# print("- Match length:             ", match_length)
+# print("- Starting lines for games: ", game_start_lines)
+# print("Starting players in each game: ", starting_players)
+
+
+
+
+
+
